@@ -6,12 +6,11 @@
 /*   By: msennane <msennane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 00:34:19 by msennane          #+#    #+#             */
-/*   Updated: 2023/12/01 01:38:59 by msennane         ###   ########.fr       */
+/*   Updated: 2023/12/01 01:41:42 by msennane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
 
 char	*extract_clean_line(char *buffer)
 {
