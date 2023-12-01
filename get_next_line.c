@@ -6,7 +6,7 @@
 /*   By: msennane <msennane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 00:34:19 by msennane          #+#    #+#             */
-/*   Updated: 2023/12/01 01:41:42 by msennane         ###   ########.fr       */
+/*   Updated: 2023/12/01 02:18:59 by msennane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ char	*read_and_append_line(char *buffer, char *line, int fd,
 		free(buffer);
 		return (NULL);
 	}
-	*bytes_read = read(fd, buffer, BUFFER_SIZE);
+	*bytes_read = read(fd, line, BUFFER_SIZE);
 	if (*bytes_read < 0)
 	{
-		free(buffer);
 		free(line);
+		free(buffer);
 		return (NULL);
 	}
 	line[*bytes_read] = '\0';
@@ -84,27 +84,27 @@ char	*read_and_append_line(char *buffer, char *line, int fd,
 
 char	*get_next_line(int fd)
 {
+	char		*line[2];
 	static char	*buffer;
 	ssize_t		bytes_read;
-	char		*line;
 
-	line = initialize_buffer();
-	if (!line)
+	line[0] = initialize_buffer();
+	if (line[0] == NULL)
 		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		free(line);
+		free(line[0]);
 		return (NULL);
 	}
 	bytes_read = 1;
-	while (!ft_strchr(buffer, '\n') && bytes_read > 0)
+	while (bytes_read > 0 && !ft_strchr(line[0], '\n'))
 	{
-		buffer = read_and_append_line(buffer, line, fd, &bytes_read);
+		buffer = read_and_append_line(buffer, line[0], fd, &bytes_read);
 		if (!buffer)
 			return (NULL);
 	}
-	free(line);
-	line = extract_clean_line(buffer);
+	line[1] = extract_clean_line(buffer);
 	buffer = extract_rest(buffer);
-	return (line);
+	free(line[0]);
+	return (line[1]);
 }
