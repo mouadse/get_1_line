@@ -6,7 +6,7 @@
 /*   By: msennane <msennane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 00:34:31 by msennane          #+#    #+#             */
-/*   Updated: 2023/12/01 01:11:01 by msennane         ###   ########.fr       */
+/*   Updated: 2023/12/01 02:15:42 by msennane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,26 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*str;
-	size_t	i;
+	char	*dst;
+	size_t	size;
 
-	i = 0;
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
+	if (!s1)
+	{
+		s1 = (char *)malloc(sizeof(char));
+		if (!s1)
+			return (NULL);
+		s1[0] = '\0';
+	}
+	size = ft_strlen(s1) + ft_strlen(s2);
+	dst = (char *)malloc(sizeof(char) * (size + 1));
+	if (!dst)
 		return (NULL);
-	while (*s1)
-		str[i++] = *s1++;
-	while (*s2)
-		str[i++] = *s2++;
-	str[i] = '\0';
-	return (str);
+	ft_strlcpy(dst, s1, (size + 1));
+	ft_strlcpy((dst + ft_strlen(s1)), s2, (size + 1));
+	free(s1);
+	return (dst);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
